@@ -14,6 +14,8 @@
 #define MAX_URL 1000000
 #define URL_LEN 2024
 
+
+
 struct url{
 	char *url;
 };
