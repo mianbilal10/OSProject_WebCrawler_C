@@ -9,22 +9,27 @@ void init_hash(){
 
 /*-------- print hash -------- */
 void print_hash(){
-	printf("START __\n");
+	int count = 1;
+	FILE *fp;
+  	fp = fopen("urls.txt","a");
+	//printf("START __\n");
 	int i;
 	for(i=0;i<MAX_HASH;i++){
 		if(hash_table[i] == NULL){
-			printf("\t%d\t----\n", i);
+			//printf("\t%d\t----\n", i);
 		}else{
-			printf("\t%d\t", i);
+			//printf("\t%d\t", i);
 			node_t *tmp = hash_table[i];
 			while(tmp != NULL){
-				printf("%s----", tmp->url);
+				fprintf(fp, "%d: %s\n",count++, tmp->url);
+				//printf("%s----", tmp->url);
 				tmp = tmp->next;
 			}
-			printf("\n");
+			//printf("\n");
 		}
 	}
-	printf("___END\n");
+	//printf("___END\n");
+	printf("URLs has successfully been Written to the urls.txt\n");
 }
 
 /*-------- hash function -------- */
@@ -68,5 +73,6 @@ node_t *lookup_hash(char *url){
 		tmp = tmp->next;
 	}
 
+	
 	return tmp;
 }

@@ -1,12 +1,10 @@
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
 /* --------------- queue.c declarations --------------- */
 
-#define QUEUE_EMPTY "1203"
-
+#define QUEUE_EMPTY "e"
 // node 
 struct node{
 	char *url;
@@ -37,7 +35,7 @@ void print_queue(queue_t q);
 /*------------- Hash.c declarations --------------------*/
 
 #define MAX_NAME 256
-#define MAX_HASH 100
+#define MAX_HASH 10000
 //hash table
 node_t *hash_table[MAX_HASH];
 //init fucntion for hash_table
@@ -50,3 +48,4 @@ bool insert_hash(node_t *p, queue_t *q);
 node_t *lookup_hash(char *url);
 //print hash
 void print_hash();
+
