@@ -11,7 +11,7 @@
 
 /*  ----------------crawler.c Declarations--------------  */
 
-#define MAX_URL 100000
+#define MAX_URL 1000000
 #define URL_LEN 2024
 
 struct url{
@@ -21,9 +21,9 @@ typedef struct url url_t;
 
 int n , current;//number of urls retrieved and current
 char url[MAX_URL][URL_LEN];//to store obtained urls
-char root[200]; //domain name of first url
+char root[400]; //domain name of first url
 void url_print(void);//print links
-void  root_extract(char *root, char *url);//root extractor
+void  extract_root(char *root, char *url);//root extractor
 
 uint write_cb(char *in, uint size, uint nmemb, TidyBuffer *out);
 void dumpNode(TidyDoc doc, TidyNode tnod);

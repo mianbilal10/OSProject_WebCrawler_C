@@ -51,8 +51,8 @@ void crawl_frontier(){
     //end loop
 
   //url_print();
-  print_queue(q);
-  print_hash();
+ // print_queue(q);
+  //print_hash();
 }
 
 /*--------------Extract domain name-----------------*/
