@@ -15,6 +15,8 @@ node_t *create_new_node(char *url){
 	return node;
 }
 
+
+
 /*-------- enqueue  -------- */
 bool enqueue(queue_t *q, char *url){
 
