@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     n++;
     extract_root(root, argv[1]);
    
-    insert_hash(create_new_node(argv[1]), &q);
+    insert_hash(create_new_node(argv[1]), &q);//add user url in queue
     current++;
     
     char *url_string= dequeue(&q);
