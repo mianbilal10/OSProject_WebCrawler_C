@@ -22,10 +22,11 @@ int main(int argc, char **argv)
     char *url_string= dequeue(&q);
     crawl(url_string);
     crawl_frontier(); 
-    
 
-   
     int status = 1;
+
+
+
 
 	  int loop;
     //for(loop=0;loop<4;loop++){
