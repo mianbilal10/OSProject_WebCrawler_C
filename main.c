@@ -23,10 +23,7 @@ int main(int argc, char **argv)
     crawl(url_string);
     crawl_frontier(); 
 
-    int status = 1;
-
-
-
+    int status = 1;//Comment
 
 	  int loop;
     //for(loop=0;loop<4;loop++){
