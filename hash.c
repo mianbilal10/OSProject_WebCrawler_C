@@ -12,23 +12,17 @@ void print_hash(){
 	int count = 1;
 	FILE *fp;
   	fp = fopen("urls.txt","a");
-	//printf("START __\n");
 	int i;
 	for(i=0;i<MAX_HASH;i++){
 		if(hash_table[i] == NULL){
-			//printf("\t%d\t----\n", i);
 		}else{
-			//printf("\t%d\t", i);
 			node_t *tmp = hash_table[i];
 			while(tmp != NULL){
 				fprintf(fp, "%d: %s\n",count++, tmp->url);
-				//printf("%s----", tmp->url);
 				tmp = tmp->next;
 			}
-			//printf("\n");
 		}
 	}
-	//printf("___END\n");
 	printf("URLs has successfully been Written to the urls.txt\n");
 }
 
@@ -58,7 +52,7 @@ bool insert_hash(node_t *p, queue_t *queue){
 		enqueue(queue, p->url);
 		p->next = hash_table[index];
 		hash_table[index] = p;
-
+		printf("Inserted_%s\n", p->url);
 	}
 
 	return true;

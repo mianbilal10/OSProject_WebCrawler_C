@@ -25,6 +25,7 @@ void dumpNode(TidyDoc doc, TidyNode tnod)
   TidyNode child;
   for(child = tidyGetChild(tnod); child; child = tidyGetNext(child) ) {
     const int tagId = tidyNodeGetId(child);
+    const char *tagName = tidyNodeGetName(child);
     if(tagId == 1) { // a-tag ID = 1
       /* if it has a name, then it's an HTML tag ... */ 
       TidyAttr attr;
@@ -52,11 +53,12 @@ int crawl(char *argv){
     TidyBuffer docbuf = {0};
     TidyBuffer tidy_errbuf = {0};
     int err;
-    
+    FILE *fp;
+    fp = fopen("htmlcode.txt", "a");
     curl = curl_easy_init();
     curl_easy_setopt(curl, CURLOPT_URL, argv);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
-    
+
     tdoc = tidyCreate();
     tidyOptSetBool(tdoc, TidyForceOutput, yes); /* try harder */ 
     tidyOptSetInt(tdoc, TidyWrapLen, 4096);
@@ -73,7 +75,6 @@ int crawl(char *argv){
         if(err >= 0) {
           err = tidyRunDiagnostics(tdoc); /* load tidy error buffer */ 
           if(err >= 0) {
-
             dumpNode(tdoc, tidyGetRoot(tdoc)); /* walk the tree */
           }
         }
@@ -88,7 +89,6 @@ int crawl(char *argv){
     tidyBufFree(&docbuf);
     tidyBufFree(&tidy_errbuf);
     tidyRelease(tdoc);
-    //url_print();
-    //return err;
+    printf("NO ERROR: CRAWLED THE URL\n");
 }
 /*-------------------  crawl function ends  ----------------------*/

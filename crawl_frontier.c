@@ -11,7 +11,6 @@ void crawl_frontier(){
     size_t dLength = strlen(root);
     char complete_url[URL_LEN];
     char *temp;
-    int current1=1;
     //start loop
     for(; current<n; current++){
 
@@ -49,10 +48,6 @@ void crawl_frontier(){
     
     }
     //end loop
-
-  //url_print();
- // print_queue(q);
-  //print_hash();
 }
 
 /*--------------Extract domain name-----------------*/

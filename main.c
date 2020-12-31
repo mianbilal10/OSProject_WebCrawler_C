@@ -12,30 +12,7 @@ int main(int argc, char **argv)
   n = 0, current = 0;
   if(argc == 2) {
 
-    strcpy(url[n], argv[1]);//copy url to global variable
-    n++;
-    extract_root(root, argv[1]);
-   
-    insert_hash(create_new_node(argv[1]), &q);
-    current++;
-    
-    char *url_string= dequeue(&q);
-    crawl(url_string);
-    crawl_frontier(); 
-
-    int status = 1;//Comment
-
-	  int loop;
-    //for(loop=0;loop<4;loop++){
-      while(strcmp(url_string=dequeue(&q), QUEUE_EMPTY) !=0){
-      crawl(url_string);
-      crawl_frontier();//insert queue and hash
-      printf("URL#%d___Crawled...\n", status++);
-      }
-     
-   // }
-    
-    print_hash();//write to file
+    spider(argv[1]);//calling spider
 
   }
 

@@ -33,3 +33,6 @@ int crawl(char *argv);
 void crawl_frontier();
 char *url_formatted_string(char *url);
 char *domain_name(char *domain);
+
+/*  ------------------spider.c declarations------------------------  */
+void spider(char *argv);
