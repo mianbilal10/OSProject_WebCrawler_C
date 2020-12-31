@@ -47,5 +47,5 @@ bool insert_hash(node_t *p, queue_t *q);
 //Look up function 
 node_t *lookup_hash(char *url);
 //print hash
-void print_hash();
+void write_hash_to_file();
 

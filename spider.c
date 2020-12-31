@@ -17,17 +17,12 @@ void spider(char *argv){
     int status = 1;//Comment
 
 	int loop;
-    //for(loop=0;loop<2;loop++){
-      	while(strcmp(url_string=dequeue(&q), QUEUE_EMPTY) !=0){
-      		crawl(url_string);
-      		crawl_frontier();//insert queue and hash
-      		printf("URL#%d___Crawled...%s\n", status++, url_string);
-      		print_hash();//write to file
-      	}
-      	//print_queue(q);
-    	//crawl_frontier();
-   //}
-   
-    //print_hash();//write to file
+    while(strcmp(url_string=dequeue(&q), QUEUE_EMPTY) !=0){
+        crawl(url_string);
+      	crawl_frontier();//insert queue and hash
+      	printf("URL#%d___Crawled...%s\n", status++, url_string);
+      
+    }
+    write_hash_to_file();//write to file
 
 }

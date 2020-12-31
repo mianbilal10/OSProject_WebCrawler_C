@@ -8,10 +8,10 @@ void init_hash(){
 }
 
 /*-------- print hash -------- */
-void print_hash(){
+void write_hash_to_file(){
 	int count = 1;
 	FILE *fp;
-  	fp = fopen("urls.txt","a");
+  	fp = fopen("urls.txt","w");
 	int i;
 	for(i=0;i<MAX_HASH;i++){
 		if(hash_table[i] == NULL){
@@ -52,7 +52,6 @@ bool insert_hash(node_t *p, queue_t *queue){
 		enqueue(queue, p->url);
 		p->next = hash_table[index];
 		hash_table[index] = p;
-		printf("Inserted_%s\n", p->url);
 	}
 
 	return true;
@@ -66,7 +65,6 @@ node_t *lookup_hash(char *url){
 	while(tmp != NULL && strcmp(tmp->url, url) != 0){
 		tmp = tmp->next;
 	}
-
 	
 	return tmp;
 }
