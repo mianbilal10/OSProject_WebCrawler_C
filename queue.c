@@ -12,6 +12,7 @@ node_t *create_new_node(char *url){
 	node->url = url;
 	node->next = NULL;
 
+
 	return node;
 }
 
