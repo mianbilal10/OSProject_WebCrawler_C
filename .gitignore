@@ -1,5 +1,6 @@
 test.c
 test
-main
-htmlcode.txt
+crawler
+urls.txt
+*.o
 .gitignore~
