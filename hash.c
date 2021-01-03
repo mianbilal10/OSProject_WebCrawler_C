@@ -41,9 +41,10 @@ bool insert_hash(node_t *p, queue_t *queue){
 		tmp = tmp->next;
 	}
 	if(tmp == NULL){
-		//printf("Inserted:_____------%s\n", p->url);
+		printf("Inserted:_____------%s\n", p->url);
 		//enqueue
 		enqueue(queue, p->url);
+		//insert node to hash
 		p->next = hash_table[index];
 		hash_table[index] = p;
 	}

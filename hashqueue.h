@@ -5,9 +5,10 @@
 /* --------------- queue.c declarations --------------- */
 
 #define QUEUE_EMPTY "e"
+#define URL_LEN 2024
 // node 
 struct node{
-	char *url;
+	char url[URL_LEN];//changed
 	struct node *next;
 };
 typedef struct node node_t;
@@ -21,16 +22,12 @@ typedef struct queue queue_t;
 
 //declare a queue
 queue_t q;
-// init queue
-void init_queue(queue_t *q);
 //function to create a node
 node_t *create_new_node(char *url);
 //Enqueue
 bool enqueue(queue_t *q, char *url);
 //Dequeue
 char *dequeue(queue_t *q);
-//print queue
-void print_queue(queue_t q);
 
 /*------------- Hash.c declarations --------------------*/
 
@@ -38,19 +35,13 @@ void print_queue(queue_t q);
 #define MAX_HASH 100
 //hash table
 node_t *hash_table[MAX_HASH];
-//init fucntion for hash_table
-void init_hash();
 //hash function
 unsigned int hashFunction(char *url);
 //Add element to the hash
 bool insert_hash(node_t *p, queue_t *q);
-//Look up function 
-node_t *lookup_hash(char *url);
 //print hash
 void write_hash_to_file();
 
 /*--------------list.c declarations--------------*/
-void printList(node_t* head);
 node_t * create_new_list_node(char *url);
 void insert_node_head(node_t **head, char* url);
-node_t * find_node(node_t *head, char *url);

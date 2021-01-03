@@ -11,6 +11,7 @@ void crawl_frontier(node_t *head){
     size_t dLength = strlen(root);
     char *temp;
     node_t *tmp_node;
+    
     //start loop
     while(head != NULL){
       if (strncmp("http://", head->url, 7) == 0){
@@ -73,7 +74,4 @@ void  extract_root(char *root, char *url){
     sscanf(url, "%[^/]", root);   
   }
 
-}
-void print_root(char *root){
-  printf("ROOT___: %s\n", root);
 }
