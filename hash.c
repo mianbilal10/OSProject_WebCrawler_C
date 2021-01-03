@@ -1,12 +1,4 @@
 #include "hashqueue.h"
-/*-------- init hash -------- */
-void init_hash(){
-	int i;
-	for(i=0;i<MAX_HASH;i++){
-		hash_table[i] = NULL;
-	}
-}
-
 /*-------- print hash -------- */
 void write_hash_to_file(){
 	int count = 1;
@@ -23,6 +15,7 @@ void write_hash_to_file(){
 			}
 		}
 	}
+	fclose(fp);
 	printf("URLs has successfully been Written to the urls.txt\n");
 }
 
@@ -48,7 +41,7 @@ bool insert_hash(node_t *p, queue_t *queue){
 		tmp = tmp->next;
 	}
 	if(tmp == NULL){
-		printf("Inserted:_____------%s\n", p->url);
+		//printf("Inserted:_____------%s\n", p->url);
 		//enqueue
 		enqueue(queue, p->url);
 		p->next = hash_table[index];
@@ -56,16 +49,4 @@ bool insert_hash(node_t *p, queue_t *queue){
 	}
 
 	return true;
-}
-
-/*-------- lookup from hash -------- */
-node_t *lookup_hash(char *url){
-	int index = hashFunction(url);
-	node_t *tmp = hash_table[index];
-
-	while(tmp != NULL && strcmp(tmp->url, url) != 0){
-		tmp = tmp->next;
-	}
-	
-	return tmp;
 }

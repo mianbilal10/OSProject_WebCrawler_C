@@ -5,14 +5,25 @@
 /*---------------MAIN FUNCTION-----------------*/ 
 int main(int argc, char **argv)
 {
-  	
-  clock_t start, end;
-  double cpu_time_used;
-  
-  n = 0, current = 0;
+    
   if(argc == 2) {
+  
+    first_spider(argv[1]);//first spider call
+    //spider(NULL);
 
-    spider(argv[1]);//calling spider
+    pthread_t tid[NO_OF_THREADS];
+   
+    int i;
+    for( i=0;i<NO_OF_THREADS;i++)
+    {
+
+      pthread_create(&tid[i],NULL, spider,NULL);
+    }
+    for( i=0;i<NO_OF_THREADS;i++)
+    {
+      pthread_join(tid[i],NULL);
+    }
+    write_hash_to_file();
 
   }
 

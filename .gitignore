@@ -2,5 +2,6 @@ test.c
 test
 crawler
 urls.txt
+core
 *.o
 .gitignore~

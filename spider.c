@@ -1,42 +1,91 @@
 #include "crawler.h"
 /*--------------spider function------------------*/
-void spider(char *argv){
 
-	strcpy(url[n], argv);//copy url to global variable
-    n++;
-    extract_root(root, argv);//extract root
-   
-    insert_hash(create_new_node(argv), &q);
-    current++;
+void *spider(void *no_argument){
     
-    char *url_string= dequeue(&q);
-    crawl(url_string);
-    crawl_frontier();
-    /*----ends first crawl----*/
+    node_t *head = NULL;
+    char*url;
 
+    /*--- crawl variables ---*/
+    CURL *curl;
+    char curl_errbuf[CURL_ERROR_SIZE];
+    TidyDoc tdoc;
+    TidyBuffer docbuf = {0};
+    TidyBuffer tidy_errbuf = {0};
+    int err;
+    /*--- crawl variables ---*/
+    curl = curl_easy_init();
+    while(1)
+    {
+        
+        pthread_mutex_lock(&mutex);
+        url=dequeue(&q);
+        pthread_mutex_unlock(&mutex);
+        if(strcmp(url,QUEUE_EMPTY) == 0)
+          break;
 
-    int threads = 0, id = 0, control = 0;
-    char *array[NO_OF_THREADS];
-    pthread_t tid[NO_OF_THREADS];
+        /*---crawl starts--*/
+        //head = crawl(url,head);
 
-    while(control<2){
+    
+    curl_easy_setopt(curl, CURLOPT_URL, url);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
 
-        for(threads = 0; threads < NO_OF_THREADS; threads++){
+    tdoc = tidyCreate();
+    tidyOptSetBool(tdoc, TidyForceOutput, yes); /* try harder */ 
+    tidyOptSetInt(tdoc, TidyWrapLen, 4096);
+    tidySetErrorBuffer(tdoc, &tidy_errbuf);
+    tidyBufInit(&docbuf);
+ 
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &docbuf);
+    err = curl_easy_perform(curl);
 
-            if(strcmp(array[threads] = dequeue(&q), QUEUE_EMPTY) == 0){
-                control++;
-                break;
-            }
-            pthread_create(&tid[threads], NULL, crawl, array[threads]);//create threads
+    if(!err) {
+      err = tidyParseBuffer(tdoc, &docbuf); /* parse the input */ 
+      if(err >= 0) {
+        err = tidyCleanAndRepair(tdoc); /* fix any problems */ 
+        if(err >= 0) {
+          err = tidyRunDiagnostics(tdoc); /* load tidy error buffer */ 
+          if(err >= 0) {
+            dumpNode(tdoc, tidyGetRoot(tdoc), &head); /* walk the tree */
+          }
         }
+      }
 
-        for(id = 0; id < threads; id++){
-            pthread_join(tid[id], NULL);//join threads
-        }
-
-        if(strcmp(array[threads-1], QUEUE_EMPTY) == 0){
-            crawl_frontier();
-        }
     }
-    write_hash_to_file();//write to file
+
+        /*---crawl Ends---*/       
+        pthread_mutex_lock(&mutex2);
+        crawl_frontier(head);
+        pthread_mutex_unlock(&mutex2);
+        write_hash_to_file();
+        head = NULL;
+
+        /* clean-up */ 
+        //curl_easy_cleanup(curl);
+        //tidyBufFree(&docbuf);
+        //tidyBufFree(&tidy_errbuf);
+        //tidyRelease(tdoc);
+    
+
+
+    }
+    
+
+}
+void *first_spider(char *argv){
+
+    node_t *head = NULL;
+    char*url;
+
+    extract_root(root, argv);//extract root/domain name
+    insert_hash(create_new_node(argv), &q);
+
+    url=dequeue(&q);//dequeue url
+    if(strcmp(url,QUEUE_EMPTY) == 0)
+        return;
+
+    head = crawl(url,head);//crawl first url
+    crawl_frontier(head);//insert retrieved urls to hash/ queue
+    write_hash_to_file();
 }

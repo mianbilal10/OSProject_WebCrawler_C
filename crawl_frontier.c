@@ -6,46 +6,53 @@
       Populate the queue
       Empty the url array-----------*/
 
-void crawl_frontier(){
+void crawl_frontier(node_t *head){
 
     size_t dLength = strlen(root);
-    char complete_url[URL_LEN];
     char *temp;
+    node_t *tmp_node;
     //start loop
-    for(; current<n; current++){
-
-      if (strncmp("http://", url[current], 7) == 0){
-        if(strncmp(root,(url[current])+7,dLength) == 0){
-          insert_hash(create_new_node((url[current])+7), &q);//insert into hash
+    while(head != NULL){
+      if (strncmp("http://", head->url, 7) == 0){
+        if(strncmp(root,(head->url)+7,dLength) == 0){
+          insert_hash(create_new_node(head->url), &q);//insert into hash
         }
 
-      }else if (strncmp("https://", url[current], 8) ==0){
-        if(strncmp(root,(url[current])+8,dLength) ==0) {
-          insert_hash(create_new_node((url[current])+8), &q);//insert into hash
+      }else if (strncmp("https://", head->url, 8) ==0){
+        if(strncmp(root,(head->url)+8,dLength) ==0) {
+          insert_hash(create_new_node(head->url), &q);//insert into hash
         } 
 
-      }else if(strncmp("//", url[current], 2) ==0){//start from double slash 
-        if(strncmp(root,(url[current])+2,dLength) ==0) {//refined from root domain
-          insert_hash(create_new_node((url[current])+2), &q);//insert into hash
+      }else if(strncmp("//", head->url, 2) ==0){//start from double slash 
+        if(strncmp(root,(head->url)+2,dLength) ==0) 
+        {//refined from root domain
+          temp=strdup(head->url);
+          strcpy(head->url,"https:");
+          strcat(head->url, temp);
+          insert_hash(create_new_node((head->url)), &q);//insert into hash
         }
 
       }else{  
           //concatenate root in front of incomplete urls
-        if(url[current][0] == '/'){
-          temp=strdup(url[current]);
-          strcpy(url[current],root);
-          strcat(url[current], temp);   
-          insert_hash(create_new_node(url[current]), &q);//insert new node into hash
+        if(head->url[0] == '/'){
+          temp=strdup(head->url);
+          strcpy(head->url,"https://");
+          strcat(head->url,root);
+          strcat(head->url, temp);   
+          insert_hash(create_new_node(head->url), &q);//insert new node into hash
         }else{
-          temp=strdup(url[current]);
-          strcpy(url[current],root);
-          strcat(url[current], "/");
-          strcat(url[current], temp);   
-          insert_hash(create_new_node(url[current]), &q);//insert new node into hash
+          temp=strdup(head->url);
+          strcpy(head->url,"https://");
+          strcat(head->url,root);
+          strcat(head->url, "/");
+          strcat(head->url, temp);   
+          insert_hash(create_new_node(head->url), &q);//insert new node into hash
         }
           
       }
-    
+      tmp_node = head;
+      head = head->next;
+      free(tmp_node);
     }
     //end loop
 }

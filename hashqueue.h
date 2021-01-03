@@ -35,7 +35,7 @@ void print_queue(queue_t q);
 /*------------- Hash.c declarations --------------------*/
 
 #define MAX_NAME 256
-#define MAX_HASH 10000
+#define MAX_HASH 100
 //hash table
 node_t *hash_table[MAX_HASH];
 //init fucntion for hash_table
@@ -49,3 +49,8 @@ node_t *lookup_hash(char *url);
 //print hash
 void write_hash_to_file();
 
+/*--------------list.c declarations--------------*/
+void printList(node_t* head);
+node_t * create_new_list_node(char *url);
+void insert_node_head(node_t **head, char* url);
+node_t * find_node(node_t *head, char *url);

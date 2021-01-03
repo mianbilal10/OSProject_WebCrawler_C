@@ -6,20 +6,22 @@ CFLAG=-lcurl -ltidy -lpthread -Wall -I.
 #tagets: Dependencies
 	#actions
 all: crawler
-crawler: main.o spider.o crawler.o crawl_frontier.o hash.o queue.o
-	$(CC) main.o spider.o crawler.o crawl_frontier.o hash.o queue.o -o crawler $(CFLAG) 
+crawler: main.o spider.o crawler.o crawl_frontier.o hash.o queue.o list.o
+	$(CC) -g main.o spider.o crawler.o crawl_frontier.o hash.o queue.o list.o -o crawler $(CFLAG) 
 main.o: main.c
-	$(CC) -c main.c
+	$(CC) -g -c main.c
 spider.o: spider.c
-	$(CC) -c spider.c
+	$(CC) -g -c spider.c
 crawler.o: crawler.c
-	$(CC) -c crawler.c
+	$(CC) -g -c crawler.c
 crawl_frontier.o: crawl_frontier.c
-	$(CC) -c crawl_frontier.c
+	$(CC) -g -c crawl_frontier.c
 hash.o: hash.c
-	$(CC) -c hash.c
+	$(CC) -g -c hash.c
 queue.o: queue.c
-	$(CC) -c queue.c
+	$(CC) -g -c queue.c
+list.o: list.c
+	$(CC) -g -c list.c
 #clean all the object files and crawler executable file.
 clean:
 	rm *.o crawler

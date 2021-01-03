@@ -1,16 +1,6 @@
 /* ----- Header File ------*/
 #include "crawler.h"
 
-/*  -----------PRINT URLS FUNCTION-------------  */
-void url_print(){
-  int j;
-  for(j=0;j<n;j++){
-    printf("%d: \"%s\" \n", j, url[j]);
-  }
-
-
-}
-
 /* curl write callback, to fill tidy's input buffer...  */ 
 uint write_cb(char *in, uint size, uint nmemb, TidyBuffer *out)
 {
@@ -21,7 +11,7 @@ uint write_cb(char *in, uint size, uint nmemb, TidyBuffer *out)
 }
  
 /* ------------ DUMPNODE: Traverse the document tree---------------------- */ 
-void dumpNode(TidyDoc doc, TidyNode tnod)
+void dumpNode(TidyDoc doc, TidyNode tnod, node_t **head)
 {
   TidyNode child;
   for(child = tidyGetChild(tnod); child; child = tidyGetNext(child) ) {
@@ -32,35 +22,34 @@ void dumpNode(TidyDoc doc, TidyNode tnod)
       /* walk the attribute list */ 
       for(attr = tidyAttrFirst(child); attr; attr = tidyAttrNext(attr) ) {
         const int attrId = tidyAttrGetId(attr); //href attribute ID = 58
-        const char *attrValue = tidyAttrValue(attr);
+        char *attrValue = (char *)tidyAttrValue(attr);
         if(attrId == 58 && attrValue){
-          strcpy(url[n], attrValue);//copy url to global variable
-          n++;
+          insert_node_head(head, attrValue);
           break;
         } 
       }
     }
-    dumpNode(doc, child); /* recursive */ 
+    dumpNode(doc, child, head); /* recursive */ 
   }
 }
 
 /*--------------  crawl function  ------------------*/
 
-void *crawl(void *arg){
-  CURL *curl;
+node_t *crawl(char* url, node_t *head){
+
+    CURL *curl;
     char curl_errbuf[CURL_ERROR_SIZE];
     TidyDoc tdoc;
     TidyBuffer docbuf = {0};
     TidyBuffer tidy_errbuf = {0};
     int err;
-    char *argv = (char *)arg;
 
     curl = curl_easy_init();
-    curl_easy_setopt(curl, CURLOPT_URL, argv);
-    curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, curl_errbuf);
-    curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
-    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-    curl_easy_setopt(curl, CURLOPT_USERAGENT, "ninja/2.0");
+    curl_easy_setopt(curl, CURLOPT_URL, url);
+    //curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, curl_errbuf);
+    //curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
+    //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    //curl_easy_setopt(curl, CURLOPT_USERAGENT, "ninja/2.0");
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
 
     tdoc = tidyCreate();
@@ -79,8 +68,8 @@ void *crawl(void *arg){
         if(err >= 0) {
           err = tidyRunDiagnostics(tdoc); /* load tidy error buffer */ 
           if(err >= 0) {
-            dumpNode(tdoc, tidyGetRoot(tdoc)); /* walk the tree */
-            printf("Crawled........\n");
+            dumpNode(tdoc, tidyGetRoot(tdoc), &head); /* walk the tree */
+            return head;
           }
         }
       }
@@ -88,7 +77,6 @@ void *crawl(void *arg){
     }else{
       return NULL;
     }
-
     /* clean-up */ 
     curl_easy_cleanup(curl);
     tidyBufFree(&docbuf);

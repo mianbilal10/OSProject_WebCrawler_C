@@ -11,30 +11,20 @@
 #include <pthread.h>
 /*  ----------------crawler.c Declarations--------------  */
 
-#define MAX_URL 1000000
-#define URL_LEN 2024
-#define NO_OF_THREADS 100
 
-struct url{
-	char *url;
-};
-typedef struct url url_t;
+#define NO_OF_THREADS 4
+static pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t mutex2=PTHREAD_MUTEX_INITIALIZER;
 
-int n , current;//number of urls retrieved and current
-char url[MAX_URL][URL_LEN];//to store obtained urls
 char root[400]; //domain name of first url
-int initial_queue;
-void url_print(void);//print links
-void  extract_root(char *root, char *url);//root extractor
-
+void extract_root(char *root, char *url);//root extractor
 uint write_cb(char *in, uint size, uint nmemb, TidyBuffer *out);
-void dumpNode(TidyDoc doc, TidyNode tnod);
-void *crawl(void *arg);
-
+void dumpNode(TidyDoc doc, TidyNode tnod, node_t **head);
+node_t *crawl(char *url, node_t *head);
 /*  --------------crawl_frontier.c Declarations------------------  */
-void crawl_frontier();
-char *url_formatted_string(char *url);
-char *domain_name(char *domain);
+void crawl_frontier(node_t *head);
+
 
 /*  ------------------spider.c declarations------------------------  */
-void spider(char *argv);
+void* spider(void *no_argument);
+void *first_spider(char *argv);

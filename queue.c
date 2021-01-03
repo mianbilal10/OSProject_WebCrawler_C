@@ -12,7 +12,6 @@ node_t *create_new_node(char *url){
 	node->url = url;
 	node->next = NULL;
 
-
 	return node;
 }
 
@@ -38,10 +37,12 @@ bool enqueue(queue_t *q, char *url){
 char *dequeue(queue_t *q){
 
 	char *url;
-
+	node_t *tmp;
 	if(q->head != NULL){
 		url = q->head->url;
+		tmp = q->head;
 		q->head = q->head->next;
+		free(tmp);
 		return url;
 	}else if(q->head == NULL){
 		return QUEUE_EMPTY;
