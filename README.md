@@ -1,9 +1,5 @@
-
-**********************   WEB CRAWLER   **************************
-
-******************  C Programming Language  *********************
-
-********************  Operating Systems  ************************
+#Crawling Spider
+[logo]: https://www.kidsstufftoys.co.uk/images/_lib//robo-alive-crawling-spider-57002062-0-1538164763000.jpg "Logo Title Text 2"
 
 >>Description:
 
