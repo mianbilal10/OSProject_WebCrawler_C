@@ -83,7 +83,7 @@ Muhammad Bilal
 [@mianbilal10](https://github.com/mianbilal10)
 
 Ahmad Dawood
-[@mianbilal10](https://github.com/AhmadDawood225)
+[@ahmaddawood](https://github.com/AhmadDawood225)
 
 Dhanesh Kumar Meghwar
 
