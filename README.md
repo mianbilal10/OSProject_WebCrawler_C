@@ -1,69 +1,97 @@
-#Crawling Spider
-[logo]: https://www.kidsstufftoys.co.uk/images/_lib//robo-alive-crawling-spider-57002062-0-1538164763000.jpg "Logo Title Text 2"
+# Crawling Spider
 
->>Description:
+A web crawler to extract urls from web implemented in C.
 
-	This is the End Semester project for CS-330: Operating System. 
-	We have implemented this using C programming language.
+## Description
 
-	>>Motivation:
+### Build With:
 
-		Our main motivation was to implement the Operating System concepts.
+`C programming` language
 
-	>>Build With:
+###Features:
 
-		. C programming language
+	1. CLI (Command Line Interface).
+	2. Crawl a website and extract all urls.
+	3. Filters out those urls which do not belong to same domain.
+	4. Provides the opportunity to pause/resume the crawling process.
+	5. Stores results to files.
+	6. User can crawl an existing unfinished crawling project.
 
-	>>Features:
+## Getting Started
 
-		. CLI (Command Line Interface).
-		. Crawl a website and extract all urls.
-		. Filters out those urls which do not belong to same domain.
-		. Provides the opportunity to pause/resume the crawling process.
-		. Stores results to files.
-		. User can crawl an existing unfinished crawling project.
+### Dependencies
 
->>Tools Required:
+To run this crawler you need following pre-requisites:
+* Linux Operating system.
+* libcurl Package
+* libtidy Package
+* gcc compiler
 
-	. Linux Operating system.
-	. libcurl Package
-	. libtidy Package
-	. gcc compiler
+### Installing
 
->>Installation:
+* First of all install the libcurl package
+	```
+	sudo apt-get install libcurl4-openssl-dev
+	```
+
+* Now install libtidy package
+	```
+	sudo apt-get install libtidy-dev
+	```
+
+* Paste all the .c and .h files along with Makefile in a single directory.
+
+* Open terminal into same directory and type following command:
+	```
+	make
+	```
+* All the object files (.o) and executable file named "crawler" will be generated into same directory.
+
+### Usage
+
+* First of all run the created executable file named "crawler"
+	```
+	./crawler
+	```
 	
-	. First of all install the libcurl package
-		~ sudo apt-get install libcurl4-openssl-dev
-
-	. Now install libtidy package
-		~ sudo apt-get install libtidy-dev
-
-	. Paste all the .c and .h files along with Makefile in a single directory.
-
-	. Open terminal into same directory and type following command:
-		~ make
-	. All the object files (.o) and executable file named "crawler" will be generated into same directory.
+* Now your crawler is up and running.
 	
->>Usage:
-	
-	. First of all run the created executable file named "crawler"
-		~ ./crawler
-	
-	. Now your crawler is up and running.
-	
-	. Crawler will be asking for some inputs and options.
+* Crawler will be asking for some inputs and options.
 
-	. You can choose appropriate options and provide relevant inputs to get perfect results. Thanks!
+* You can choose appropriate options and provide relevant inputs to get perfect results.
 
->>Contributors:
+* To pause the crawling process
+	```
+	Ctrl + F
+	```
+* To Resume the crawling process
+	```
+	Ctrl + Q
+	```
 
-	Muhammad Bilal 219241 BSCS-8B
+* To terminate the crawling process
+	```
+	Ctrl + C
+	```
+	```
+	NOTE: Your progress will be saved to project folder even if you terminate the program.
+	```
 
-	Ahmad Dawood   266705 BSCS-8B
+## Authors
 
-	Dhanesh Kumar  262405 BSCS-8B
+Muhammad Bilal  
+[@mianbilal10](https://github.com/mianbilal10)
 
->>License:
+Ahmad Dawood
+[@mianbilal10](https://github.com/AhmadDawood225)
 
-	@All copywrites reserved. Copying the source code is highly discouraged and will be considered as
-	plagiarism.
+Dhanesh Kumar Meghwar
+
+## Version
+
+* 1.0
+    * Initial Release
+
+## License
+
+All copywrites reserved. Anyone can contribute to the project and illegal use of this crawler is not permitted and highly discouraged.
