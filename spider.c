@@ -1,16 +1,19 @@
 #include "crawler.h"
 /*--------------spider function------------------*/
 
+//thread function
 void *spider(void *no_argument){
     
-    node_t *head = NULL;
+    node_t *head = NULL;//linked list head
     char*url;
+
     CURL *curl;
     char curl_errbuf[CURL_ERROR_SIZE];
     TidyDoc tdoc;
     TidyBuffer docbuf = {0};
     TidyBuffer tidy_errbuf = {0};
     int err;
+
     curl = curl_easy_init();
     
     while(1)
@@ -20,9 +23,10 @@ void *spider(void *no_argument){
         url=dequeue(&q);
         pthread_mutex_unlock(&mutex);//unlock
 
-        if(strcmp(url,QUEUE_EMPTY) == 0)
+        if(strcmp(url,QUEUE_EMPTY) == 0)//break condition
           break;
-
+      
+        printf("Crawling......%s\n", url);
         curl_easy_setopt(curl, CURLOPT_URL, url);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
 
@@ -47,54 +51,35 @@ void *spider(void *no_argument){
                 }
             }
         }
-
-        /*---crawl Ends---*/       
+      
         pthread_mutex_lock(&mutex2);//lock
         crawl_frontier(head);
         pthread_mutex_unlock(&mutex2);//unlock
 
         head = NULL;
     }
-}
+}//spider ends
 
+//crawl first url
 void *first_spider(char *argv){
 
-    node_t *head = NULL;
+    node_t *head = NULL;//linked list head
     char*url;
 
-    extract_root(root, argv);//extract root/domain name
+    extract_root(root, argv);//extract domain name
+    //write the domain name into Domain.txt file
     FILE* fp;
-    fp=fopen(crawled_list,"w");
+    fp=fopen(root_list,"w");
     fprintf(fp,"%s",root);
-    fclose(fp);
-    insert_hash(create_new_node(argv), &q);
+    fclose(fp);//file close
+
+    insert_hash(create_new_node(argv), &q);//insert first url to hash/queue
 
     url=dequeue(&q);//dequeue url
-    if(strcmp(url,QUEUE_EMPTY) == 0)
+    if(strcmp(url,QUEUE_EMPTY) == 0)//break condition
         return;
+    printf("Crawling......%s\n", url);
     head = crawl(url,head);//crawl first url
     crawl_frontier(head);//insert retrieved urls to hash/ queue
-
 }
 
-void file_writer(){
-
-    file_writer_default();
-
-    raise (SIGTERM);
-}
-void file_writer_default(){
-
-    FILE *fp_queue;
-    fp_queue = fopen(waiting_list, "w");
-    FILE *fp_hash;    
-    fp_hash = fopen(found_list, "w");
-
-    write_hash_to_file(fp_hash);
-    print_queue_to_file(q,fp_queue);
-
-    
-    fclose(fp_queue);
-    fclose(fp_hash);
-
-}

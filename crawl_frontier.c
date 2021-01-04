@@ -8,9 +8,9 @@
 
 void crawl_frontier(node_t *head){
 
-    size_t dLength = strlen(root);
-    char *temp;
-    node_t *tmp_node;
+    size_t dLength = strlen(root);//length of doamin name
+    char *temp;//for concatenation
+    node_t *tmp_node;//for copying head->next and free
     
     //start loop
     while(head != NULL){
@@ -53,26 +53,8 @@ void crawl_frontier(node_t *head){
       }
       tmp_node = head;
       head = head->next;
-      free(tmp_node);
+      free(tmp_node);//free prev node
     }
     //end loop
 }
 
-/*--------------Extract domain name-----------------*/
-void  extract_root(char *root, char *url){
-
-  char tmp[7];
-
-  strncpy(tmp, url, 6);
-  tmp[7] = '\0';
-
-  //extracting the domain name.
-  if(strchr(tmp, '/') != NULL){
-    sscanf(url, "http://%[^/]", root);
-  }else if(strchr(tmp, ':') != NULL){
-    sscanf(url, "https://%[^/]", root);
-  }else{
-    sscanf(url, "%[^/]", root);   
-  }
-
-}

@@ -1,17 +1,40 @@
 /* ----- Header File ------*/
 #include "crawler.h"
-
-/*---------------MAIN FUNCTION-----------------*/ 
+void help();
+//main starts 
 int main(int argc, char **argv)
-{
-    signal(SIGINT, file_writer); 
-    signal(SIGSEGV, file_writer);
-    signal(SIGABRT, file_writer);
-    signal(SIGSTOP, stop_handler);
-    bootup();
+{   
+	//Signal handler call
+    signal(SIGINT, file_writer);//ctrl+C 
+    signal(SIGSEGV, file_writer);//seg fault
+    signal(SIGABRT, file_writer);//aborted
+
+    bootup();//bootup function call
+
+    file_writer_default();//writing to files
+
+    return 0;
+}//main ends
+
+// signal handler
+void file_writer(){
 
     file_writer_default();
 
-    return 0;
+    raise (SIGTERM);
 }
-/*---------------MAIN ENDS-----------------*/
+//write to file
+void file_writer_default(){
+
+    FILE *fp_queue;
+    fp_queue = fopen(waiting_list, "w");
+    FILE *fp_hash;    
+    fp_hash = fopen(found_list, "w");
+
+    write_hash_to_file(fp_hash);
+    print_queue_to_file(q,fp_queue);
+
+    fclose(fp_queue);
+    fclose(fp_hash);
+
+}

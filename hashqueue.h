@@ -28,11 +28,11 @@ node_t *create_new_node(char *url);
 bool enqueue(queue_t *q, char *url);
 //Dequeue
 char *dequeue(queue_t *q);
-void print_queue_to_file(queue_t q, FILE *fp);
+int print_queue_to_file(queue_t q, FILE *fp);
 /*------------- Hash.c declarations --------------------*/
 
 #define MAX_NAME 256
-#define MAX_HASH 100
+#define MAX_HASH 10000
 //hash table
 node_t *hash_table[MAX_HASH];
 //hash function
@@ -43,5 +43,5 @@ bool insert_hash(node_t *p, queue_t *q);
 void write_hash_to_file(FILE *fp);
 bool just_insert_to_hash(node_t *p);
 /*--------------list.c declarations--------------*/
-node_t * create_new_list_node(char *url);
+node_t *create_new_list_node(char *url);
 void insert_node_head(node_t **head, char* url);
