@@ -1,5 +1,5 @@
 # Crawling Spider
-
+![crawling spider avatar](https://www.scraping-bot.io/wp-content/uploads/2020/03/Spider-Crawlerweb-shine.png)
 A web crawler to extract urls from web implemented in C.
 
 ## Description
