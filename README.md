@@ -1,5 +1,4 @@
-![crawling spider avatar](https://www.scraping-bot.io/wp-content/uploads/2020/03/Spider-Crawlerweb-shine.png)
-<img src="https://www.scraping-bot.io/wp-content/uploads/2020/03/Spider-Crawlerweb-shine.png" alt="drawing" width="200"/>
+<img src="https://www.scraping-bot.io/wp-content/uploads/2020/03/Spider-Crawlerweb-shine.png" alt="drawing" width="200"/><br>
 
 # Crawling Spider
 A web crawling Bot to extract urls from web implemented in C.
