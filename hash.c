@@ -1,21 +1,21 @@
 #include "hashqueue.h"
 /*-------- print hash -------- */
-void write_hash_to_file(){
-	int count = 1;
-	FILE *fp;
-  	fp = fopen("urls.txt","w");
+void write_hash_to_file(FILE *fp){
+
 	int i;
+	//int count=0;
 	for(i=0;i<MAX_HASH;i++){
 		if(hash_table[i] == NULL){
 		}else{
 			node_t *tmp = hash_table[i];
 			while(tmp != NULL){
-				fprintf(fp, "%d: %s\n",count++, tmp->url);
+				fprintf(fp, "%s\n", tmp->url);
+				//printf("write_hash_to_file-------%s\n", tmp->url);
 				tmp = tmp->next;
 			}
 		}
 	}
-	fclose(fp);
+
 	printf("URLs has successfully been Written to the urls.txt\n");
 }
 
@@ -44,6 +44,25 @@ bool insert_hash(node_t *p, queue_t *queue){
 		printf("Inserted:_____------%s\n", p->url);
 		//enqueue
 		enqueue(queue, p->url);
+		//insert node to hash
+		p->next = hash_table[index];
+		hash_table[index] = p;
+	}
+
+	return true;
+}
+
+
+/*-------- insert into hash -------- */
+bool just_insert_to_hash(node_t *p){
+	if(p == NULL) return false;
+	int index = hashFunction(p->url);
+	node_t *tmp = hash_table[index];
+
+	while(tmp != NULL && strcmp(tmp->url, p->url) != 0){
+		tmp = tmp->next;
+	}
+	if(tmp == NULL){
 		//insert node to hash
 		p->next = hash_table[index];
 		hash_table[index] = p;

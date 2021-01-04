@@ -7,8 +7,11 @@
 #include <tidy/tidy.h>
 #include <tidy/buffio.h>
 #include <curl/curl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include "hashqueue.h"
 #include <pthread.h>
+#include <signal.h> 
 /*  ----------------crawler.c Declarations--------------  */
 
 
@@ -27,3 +30,19 @@ void extract_root(char *root, char *url);//root extractor
 /*  ------------------spider.c declarations------------------------  */
 void* spider(void *no_argument);
 void *first_spider(char *argv);
+void file_writer();
+void file_writer_default();
+
+/*--------------bootup.c Declarations---------------*/
+//struct used for stat function
+struct stat stats; 
+char waiting_list[100], crawled_list[100], found_list[100];//file paths
+//create new project directory with all supporting files.
+int bootup();
+
+int create_project(char *proj_name);
+bool look_up(char *path);
+void file_to_queue(char *path);
+void file_to_hash(char *path);
+void set_file_path(char *proj_name);
+void create_threads();

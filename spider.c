@@ -16,9 +16,10 @@ void *spider(void *no_argument){
     while(1)
     {
         
-        pthread_mutex_lock(&mutex);
+        pthread_mutex_lock(&mutex);//lock
         url=dequeue(&q);
-        pthread_mutex_unlock(&mutex);
+        pthread_mutex_unlock(&mutex);//unlock
+
         if(strcmp(url,QUEUE_EMPTY) == 0)
           break;
 
@@ -48,9 +49,9 @@ void *spider(void *no_argument){
         }
 
         /*---crawl Ends---*/       
-        pthread_mutex_lock(&mutex2);
+        pthread_mutex_lock(&mutex2);//lock
         crawl_frontier(head);
-        pthread_mutex_unlock(&mutex2);
+        pthread_mutex_unlock(&mutex2);//unlock
 
         head = NULL;
     }
@@ -62,6 +63,10 @@ void *first_spider(char *argv){
     char*url;
 
     extract_root(root, argv);//extract root/domain name
+    FILE* fp;
+    fp=fopen(crawled_list,"w");
+    fprintf(fp,"%s",root);
+    fclose(fp);
     insert_hash(create_new_node(argv), &q);
 
     url=dequeue(&q);//dequeue url
@@ -69,5 +74,27 @@ void *first_spider(char *argv){
         return;
     head = crawl(url,head);//crawl first url
     crawl_frontier(head);//insert retrieved urls to hash/ queue
+
+}
+
+void file_writer(){
+
+    file_writer_default();
+
+    raise (SIGTERM);
+}
+void file_writer_default(){
+
+    FILE *fp_queue;
+    fp_queue = fopen(waiting_list, "w");
+    FILE *fp_hash;    
+    fp_hash = fopen(found_list, "w");
+
+    write_hash_to_file(fp_hash);
+    print_queue_to_file(q,fp_queue);
+
+    
+    fclose(fp_queue);
+    fclose(fp_hash);
 
 }

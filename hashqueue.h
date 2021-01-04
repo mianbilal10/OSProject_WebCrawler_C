@@ -28,7 +28,7 @@ node_t *create_new_node(char *url);
 bool enqueue(queue_t *q, char *url);
 //Dequeue
 char *dequeue(queue_t *q);
-
+void print_queue_to_file(queue_t q, FILE *fp);
 /*------------- Hash.c declarations --------------------*/
 
 #define MAX_NAME 256
@@ -40,8 +40,8 @@ unsigned int hashFunction(char *url);
 //Add element to the hash
 bool insert_hash(node_t *p, queue_t *q);
 //print hash
-void write_hash_to_file();
-
+void write_hash_to_file(FILE *fp);
+bool just_insert_to_hash(node_t *p);
 /*--------------list.c declarations--------------*/
 node_t * create_new_list_node(char *url);
 void insert_node_head(node_t **head, char* url);

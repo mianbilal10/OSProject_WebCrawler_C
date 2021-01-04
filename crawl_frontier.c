@@ -62,6 +62,7 @@ void crawl_frontier(node_t *head){
 void  extract_root(char *root, char *url){
 
   char tmp[7];
+
   strncpy(tmp, url, 6);
   tmp[7] = '\0';
 

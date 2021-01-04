@@ -40,3 +40,16 @@ char *dequeue(queue_t *q){
 	}
 
 }
+/*-------- print queue  -------- */
+void print_queue_to_file(queue_t q, FILE *fp){
+	int n=1;
+	if(q.head == NULL){
+		printf("QUEUE IS EMPTY:\n");
+	}else if(q.head != NULL){
+		while(q.head != NULL){
+			fprintf(fp, "%s\n", q.head->url);
+			//printf("print_queue_to_file---------%s\n", q.head->url);
+			q.head = q.head->next;
+		}
+	}
+}

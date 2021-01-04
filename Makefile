@@ -6,10 +6,12 @@ CFLAG=-lcurl -ltidy -lpthread -Wall -I.
 #tagets: Dependencies
 	#actions
 all: crawler
-crawler: main.o spider.o crawler.o crawl_frontier.o hash.o queue.o list.o
-	$(CC) -g main.o spider.o crawler.o crawl_frontier.o hash.o queue.o list.o -o crawler $(CFLAG) 
+crawler: main.o bootup.o spider.o crawler.o crawl_frontier.o hash.o queue.o list.o
+	$(CC) -g main.o bootup.o spider.o crawler.o crawl_frontier.o hash.o queue.o list.o -o crawler $(CFLAG) 
 main.o: main.c
 	$(CC) -g -c main.c
+bootup.o: bootup.c
+	$(CC) -g -c bootup.c
 spider.o: spider.c
 	$(CC) -g -c spider.c
 crawler.o: crawler.c

@@ -42,7 +42,6 @@ node_t *crawl(char* url, node_t *head){
     TidyBuffer docbuf = {0};
     TidyBuffer tidy_errbuf = {0};
     int err;
-
     curl = curl_easy_init();
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
