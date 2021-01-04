@@ -8,7 +8,7 @@ A web crawler to extract urls from web implemented in C.
 
 `C programming` language
 
-###Features:
+### Features:
 
 	1. CLI (Command Line Interface).
 	2. Crawl a website and extract all urls.
@@ -81,10 +81,8 @@ To run this crawler you need following pre-requisites:
 
 Muhammad Bilal  
 [@mianbilal10](https://github.com/mianbilal10)
-
 Ahmad Dawood
 [@mianbilal10](https://github.com/AhmadDawood225)
-
 Dhanesh Kumar Meghwar
 
 ## Version
