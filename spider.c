@@ -7,18 +7,16 @@ void *spider(void *no_argument){
     node_t *head = NULL;//linked list head
     char*url;
 
-    CURL *curl;
-    char curl_errbuf[CURL_ERROR_SIZE];
+    CURL *curl;//handle
     TidyDoc tdoc;
     TidyBuffer docbuf = {0};
     TidyBuffer tidy_errbuf = {0};
     int err;
 
-    curl = curl_easy_init();
+    curl = curl_easy_init();//initialize handle
     
     while(1)
     {
-        
         pthread_mutex_lock(&mutex);//lock
         url=dequeue(&q);
         pthread_mutex_unlock(&mutex);//unlock
@@ -31,8 +29,6 @@ void *spider(void *no_argument){
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
 
         tdoc = tidyCreate();
-        tidyOptSetBool(tdoc, TidyForceOutput, yes); /* try harder */ 
-        tidyOptSetInt(tdoc, TidyWrapLen, 4096);
         tidySetErrorBuffer(tdoc, &tidy_errbuf);
         tidyBufInit(&docbuf);
  
@@ -40,15 +36,11 @@ void *spider(void *no_argument){
         err = curl_easy_perform(curl);
 
         if(!err) {
-            err = tidyParseBuffer(tdoc, &docbuf); /* parse the input */ 
+            err = tidyParseBuffer(tdoc, &docbuf); /* parse the input */  
             if(err >= 0) {
-                err = tidyCleanAndRepair(tdoc); /* fix any problems */ 
-                if(err >= 0) {
-                    err = tidyRunDiagnostics(tdoc); /* load tidy error buffer */ 
-                    if(err >= 0) {
-                        dumpNode(tdoc, tidyGetRoot(tdoc), &head); /* walk the tree */
-                    }
-                }
+                dumpNode(tdoc, tidyGetRoot(tdoc), &head); /* walk the tree */
+                tidyBufFree(&docbuf);//clear buffer
+                tidyBufFree(&tidy_errbuf);//clear buffer
             }
         }
       
@@ -82,4 +74,5 @@ void *first_spider(char *argv){
     head = crawl(url,head);//crawl first url
     crawl_frontier(head);//insert retrieved urls to hash/ queue
 }
+
 

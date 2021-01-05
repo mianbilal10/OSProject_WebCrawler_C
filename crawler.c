@@ -4,7 +4,7 @@
 uint write_cb(char *in, uint size, uint nmemb, TidyBuffer *out)
 {
   uint r;
-  r = size * nmemb;
+  r = size * nmemb; 
   tidyBufAppend(out, in, r);
   return r;
 }
@@ -37,7 +37,6 @@ void dumpNode(TidyDoc doc, TidyNode tnod, node_t **head)
 node_t *crawl(char* url, node_t *head){
 
     CURL *curl;
-    char curl_errbuf[CURL_ERROR_SIZE];
     TidyDoc tdoc;
     TidyBuffer docbuf = {0};
     TidyBuffer tidy_errbuf = {0};
@@ -47,8 +46,6 @@ node_t *crawl(char* url, node_t *head){
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
 
     tdoc = tidyCreate();
-    tidyOptSetBool(tdoc, TidyForceOutput, yes); /* try harder */ 
-    tidyOptSetInt(tdoc, TidyWrapLen, 4096);
     tidySetErrorBuffer(tdoc, &tidy_errbuf);
     tidyBufInit(&docbuf);
  
@@ -58,18 +55,15 @@ node_t *crawl(char* url, node_t *head){
     if(!err) {
       err = tidyParseBuffer(tdoc, &docbuf); /* parse the input */ 
       if(err >= 0) {
-        err = tidyCleanAndRepair(tdoc); /* fix any problems */ 
-        if(err >= 0) {
-          err = tidyRunDiagnostics(tdoc); /* load tidy error buffer */ 
-          if(err >= 0) {
-            dumpNode(tdoc, tidyGetRoot(tdoc), &head); /* walk the tree */
-            return head;
-          }
-        }
+        dumpNode(tdoc, tidyGetRoot(tdoc), &head); /* walk the tree */
+        tidyBufFree(&docbuf);//clear buffer
+        tidyBufFree(&tidy_errbuf);//clear buffer
+        curl_easy_cleanup(curl);//clear buffer
+        return head;
       }
-
     }else{
       return NULL;
     }
 }
 /*-------------------  crawl function ends  ----------------------*/
+
