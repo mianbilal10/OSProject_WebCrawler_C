@@ -11,8 +11,6 @@ int main(int argc, char **argv)
 
     bootup();//bootup function call
 
-    file_writer_default();//writing to files
-
     return 0;
 }//main ends
 

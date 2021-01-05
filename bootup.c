@@ -37,6 +37,7 @@ int bootup(){
 			  
 			first_spider(url);//first spider call
 			create_threads();//create threads
+			file_writer_default();//writing to files
 
 		}else{
 			printf("\nERROR: Could not create the project.\n");
@@ -71,7 +72,7 @@ int bootup(){
 
 			//create threads
 			create_threads();
-			
+			file_writer_default();//writing to files
 			return 0;
 		}else{//do not exist
 			printf("\nFile/Directory do not exist.\n\n");
